@@ -56,7 +56,7 @@ export default class Content {
         let bekertrendszam: string = params.bekeresrendszam as string;
         
         res.write(`7. feladat<br>Rendszám: <input type='text' name='bekeresrendszam' value=${bekertrendszam} style='max-width:100px;' onChange='this.form.submit();'><br>`);
-        if (bekertrendszam != undefined) {
+        if (bekertrendszam != undefined &&bekertrendszam!="") {
             fs.writeFileSync(bekertrendszam + '_menetlevel.txt', megold.menetlevel(bekertrendszam));
             res.write(`Menetlevél kész<br>`);
             res.write(megold.menetlevel(bekertrendszam));

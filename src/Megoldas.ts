@@ -24,7 +24,9 @@ export default class Megoldas {
             .split("\n")
             .forEach(i => {
                 const aktSor: string = i.trim();
-                this._hasznalatadatok.push(new Hasznalat(aktSor));
+                if (aktSor != "") {
+                    this._hasznalatadatok.push(new Hasznalat(aktSor));
+                }
             });
     }
     public get utoljaraelvitt(): Iutoljaraelvitt {
@@ -91,13 +93,13 @@ export default class Megoldas {
         let autokkmei: Imegtettkmek[] = new Array();
 
         this._hasznalatadatok.forEach((item) => {
-            if (autokkmei.filter(x => x.rendszam == item.Rendszam).length == 0) autokkmei.push({ rendszam: item.Rendszam, elsoKm: item.Km, utolsoKm: -1 });
+            if (autokkmei.filter(x => x.rendszam == item.Rendszam).length == 0) autokkmei.push({ rendszam: item.Rendszam, elsoKm: item.Km, utolsoKm: item.Km });
             else autokkmei.filter(x => x.rendszam == item.Rendszam)[0].utolsoKm = item.Km;
         })
 
 
         let ki: string = "";
-        for (let i = 0; i < autokkmei.length - 1; i++) {
+        for (let i = 0; i < autokkmei.length; i++) {
             ki += autokkmei[i].rendszam + " " + (autokkmei[i].utolsoKm - autokkmei[i].elsoKm) + " km\n";
         }
 
@@ -140,7 +142,7 @@ export default class Megoldas {
     public menetlevel(rendszambe: string): any {
         var ki: string = "";
         this._hasznalatadatok.filter(x => x.Rendszam == rendszambe).forEach((item) => {
-            if (!item.Ki_behajtas) ki += item.Id + "\t" + item.Nap + ". " + item.OraPerc + "\t" + item.Km + " km \t";
+            if (!item.Ki_behajtas) ki += item.Id + "\t" + item.Nap + ". " + item.OraPerc + "\t" + item.Km + " km\t";
             else ki += item.Nap + ". " + item.OraPerc + "\t" + item.Km + " km\n";
         })
         // fs.write( + "_menetlevel.txt",megold.menetlevel
